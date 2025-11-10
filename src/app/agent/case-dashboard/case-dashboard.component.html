@@ -1,0 +1,138 @@
+
+<!-- ─────────── Case Header ─────────── -->
+<div
+  class="ml-20 mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
+         bg-white shadow-md rounded-lg p-4 border border-gray-200"
+>
+  <div class="flex flex-col md:flex-row md:justify-between">
+
+    <!-- left: name + table -->
+    <div class="flex-1">
+
+      <!-- name + status -->
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <h1 class="text-2xl font-extrabold text-gray-900">
+          {{ caseData?.customerName || '--' }}
+        </h1>
+
+        <span class="flex items-center gap-1 text-sm">
+          <span class="font-semibold text-gray-700">Status:</span>
+          <span class="px-2 py-0.5 rounded bg-blue-700 text-white font-medium tracking-wide">
+            {{ caseData?.status || 'REG' }}
+          </span>
+          <time class="text-gray-500 uppercase tracking-wide">
+            ({{ caseData?.createdAt | date:'MMM d, y' | uppercase }})
+          </time>
+        </span>
+      </div>
+
+      <!-- details table -->
+      <div class="overflow-x-auto mt-2">
+        <table class="min-w-max text-sm leading-6 border-collapse">
+          <tbody>
+            <tr class="border-b border-gray-100">
+              <th class="pr-2 font-semibold text-gray-600 text-left whitespace-nowrap">
+                Handled&nbsp;By
+              </th>
+              <td class="font-bold text-red-900 pr-6">
+                {{ caseData?.agentHandled?.name || 'PAVAN' }}
+              </td>
+
+              <th class="pr-2 font-semibold text-gray-600 text-left whitespace-nowrap">
+                Case&nbsp;ID
+              </th>
+              <td class="font-bold text-red-900">
+                {{ caseData?.caseId || 'RDA' + (caseData?._id || '') }}
+              </td>
+            </tr>
+
+            <tr>
+              <th class="pr-2 pt-1 font-semibold text-gray-600 text-left whitespace-nowrap">
+                Registered&nbsp;By
+              </th>
+              <td class="font-bold text-red-900 pt-1">
+                {{ caseData?.createdBy?.name || 'PAVAN' }}
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- update-location button -->
+      <button
+        [ngClass]="{
+          'bg-green-100 text-green-800 border-green-300': isCaseLocationUpdated,
+          'bg-white text-gray-700 border-gray-300': !isCaseLocationUpdated
+        }"
+        class="mt-3 border px-3 py-1.5 rounded text-sm font-semibold inline-flex items-center"
+      >
+        📍 Update Location
+      </button>
+    </div>
+
+    <!-- right: action buttons -->
+    <div class="mt-4 md:mt-0 flex items-start gap-2 self-start">
+      <button type="button" (click)="manualContact()"
+        class="text-sm px-3 py-1 border border-blue-600 rounded font-semibold
+               text-blue-700 hover:bg-blue-50 disabled:opacity-50">
+        Not&nbsp;Contact&nbsp;({{ manualContactCount }})
+      </button>
+
+      <button type="button"
+        (click)="openCaseCancelPopup('Case', 'REG', caseData?._id)"
+        class="text-sm px-3 py-1 bg-red-600 rounded font-semibold text-white
+               hover:bg-red-500 disabled:opacity-50">
+        Case&nbsp;Cancellation
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────── Case Details Section ─────────── -->
+<div class="ml-20 mt-4 grid max-w-7xl grid-cols-1 gap-4 lg:grid-cols-3 lg:grid-flow-col-dense">
+  <div class="space-y-4 lg:col-span-2 lg:col-start-1">
+    <section class="bg-white shadow-md rounded-xl border border-gray-200 overflow-hidden max-w-3xl">
+      <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-blue-100">
+        <h2 class="text-base font-bold text-gray-800 tracking-wide">Case Details</h2>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm leading-6">
+          <tbody class="divide-y divide-gray-100">
+            <tr *ngFor="let field of [
+              { label: 'Customer Name', value: caseData?.customerName },
+              { label: 'Policy Number', value: caseData?.policyNumber },
+              { label: 'Vehicle Number', value: caseData?.vehicleDetails?.registrationNo },
+              { label: 'Location', value: caseData?.location?.[0]?.address },
+              { label: 'Location Type', value: caseData?.locationType },
+              { label: 'Vehicle Type', value: caseData?.vehicleDetails?.vehicleType },
+              { label: 'Vehicle Model', value: caseData?.vehicleDetails?.model },
+              { label: 'Primary Phone', value: caseData?.primaryContactNumber },
+              { label: 'Secondary Phone', value: caseData?.secondaryContactNumber },
+              { label: 'Issue', value: caseData?.issue?.name || caseData?.issue },
+              { label: 'Case Source', value: caseData?.company?.name || caseData?.company }
+            ]">
+              <td class="py-2 pl-3 font-medium text-gray-700 whitespace-nowrap w-1/3">
+                {{ field.label }}
+              </td>
+              <td class="py-2 pr-3 text-gray-900 break-words">
+                {{ field.value || '--' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="px-3 py-3 border-t border-gray-100">
+        <p class="text-sm font-semibold text-gray-500 mb-1">Incident Description</p>
+        <textarea
+          readonly
+          rows="2"
+          class="w-full resize-none rounded-md border border-gray-200 bg-gray-50 p-2 text-sm text-gray-800"
+        >{{ caseData?.incidentDescription }}</textarea>
+      </div>
+    </section>
+  </div>
+</div>

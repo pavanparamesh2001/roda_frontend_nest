@@ -1,0 +1,242 @@
+<div class="max-w-6xl mx-auto bg-white shadow-lg rounded-2xl p-8 mt-8">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">
+    🧾 Case Registration Form
+  </h2>
+
+  <form [formGroup]="caseForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+    <!-- Row 1 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Name</label>
+        <input formControlName="name"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Vehicle Registration No.</label>
+        <input formControlName="vehicleRegistrationNo"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Vehicle Type</label>
+        <select formControlName="vehicleType"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+          <option value="">Select Vehicle Type</option>
+          <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Odometer Reading</label>
+        <input type="number" formControlName="odometer"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Mobile Number</label>
+        <input formControlName="mobile"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">WhatsApp Number</label>
+        <input formControlName="whatsappNo"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- State -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* State</label>
+        <select formControlName="state" (change)="onStateChange($event)"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+          <option value="">Choose a state</option>
+          <option *ngFor="let s of states" [value]="s._id">{{ s.name }}</option>
+        </select>
+      </div>
+
+      <!-- District -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* District</label>
+        <select formControlName="district"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+          <option value="">Choose a district</option>
+          <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
+        </select>
+      </div>
+
+      <!-- Location -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Location</label>
+        <input formControlName="location"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">* Incident Description</label>
+      <textarea formControlName="incidentDescription" rows="3"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500"></textarea>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Location Type -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Location Type</label>
+        <div class="flex items-center space-x-6 mt-1">
+          <label class="flex items-center space-x-2">
+            <input type="radio" formControlName="locationType" value="ROAD" class="text-blue-600" />
+            <span>Road</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" formControlName="locationType" value="HOME" class="text-blue-600" />
+            <span>Home</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Case Source</label>
+        <select formControlName="company"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+          <option value="">Select a Source</option>
+          <option *ngFor="let c of companies" [value]="c._id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <!-- Issue -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">* Issue Identified</label>
+        <select formControlName="issue"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500">
+          <option value="">Incident / Issue Type</option>
+          <option *ngFor="let i of issues" [value]="i._id">{{ i.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 6 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Reference No.</label>
+        <input formControlName="referenceNo"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Vehicle Model</label>
+        <input formControlName="vehicleModel"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500" />
+      </div>
+
+      <div class="flex items-center space-x-3 mt-6">
+        <input type="checkbox" formControlName="whatsappCommunication"
+          class="h-4 w-4 text-blue-600 border-gray-300 rounded" />
+        <label class="text-gray-700">WhatsApp Communication</label>
+      </div>
+    </div>
+
+    <!-- GPS Section -->
+    <div class="flex items-center space-x-4 mt-6">
+      <label class="text-gray-700 font-medium">* GPS :</label>
+      <button
+        type="button"
+        (click)="openGpsModal()"
+        class="text-3xl text-green-700 hover:text-green-900 focus:outline-none"
+        title="Add GPS Coordinates"
+      >
+        📍
+      </button>
+
+      <span *ngIf="gpsCoordinates" class="text-gray-600 text-sm">
+        Saved (Lat: {{ gpsCoordinates.lat }}, Lng: {{ gpsCoordinates.lng }})
+      </span>
+    </div>
+
+    <!-- Submit -->
+    <div class="flex justify-end pt-4">
+      <button type="submit" [disabled]="caseForm.invalid"
+        class="bg-blue-600 text-white px-8 py-2 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- GPS MODAL -->
+<div
+  *ngIf="showGpsModal"
+  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50"
+>
+  <div
+    class="bg-white rounded-2xl shadow-xl p-6 w-96 relative border border-gray-200"
+  >
+    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex justify-between items-center">
+      <span>📍 Case Location</span>
+      <button
+        (click)="closeGpsModal()"
+        class="text-gray-500 hover:text-gray-800 text-xl focus:outline-none"
+      >
+        ✖
+      </button>
+    </h3>
+
+    <div class="text-center mb-4">
+      <span class="text-pink-600 text-5xl">📍</span>
+    </div>
+
+    <div class="space-y-3">
+      <!-- GPS input -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">GPS Coordinates:</label>
+        <input
+          [(ngModel)]="gpsInput"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onGpsInputChange()"
+          (paste)="onGpsInputChange()"
+          placeholder="Paste lat, lng (Ctrl+V)"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-blue-200 focus:border-blue-500"
+        />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Latitude</label>
+        <input
+          [(ngModel)]="latitude"
+          [ngModelOptions]="{standalone: true}"
+          placeholder="latitude"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2"
+        />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Longitude</label>
+        <input
+          [(ngModel)]="longitude"
+          [ngModelOptions]="{standalone: true}"
+          placeholder="longitude"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-5">
+      <button
+        (click)="saveGpsCoordinates()"
+        class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>
