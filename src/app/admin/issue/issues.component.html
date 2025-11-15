@@ -36,10 +36,21 @@
             <img *ngIf="issue.image" (click)="previewImage(issue.image)" [src]="'http://localhost:3000' + issue.image"
               class="h-12 w-12 object-cover rounded-md border cursor-pointer hover:scale-105 transition" />
           </td>
-          <td class="px-4 py-3 text-center space-x-2">
-            <button (click)="openModal(issue)" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-md">Edit</button>
-            <button (click)="confirmDeleteIssue(issue._id)" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md">Delete</button>
-          </td>
+          <td class="px-4 py-3 text-center space-x-3">
+  <button
+    (click)="openModal(issue)"
+    class="border border-blue-600 text-blue-600 px-3 py-1.5 rounded hover:bg-blue-100 transition duration-200"
+  >
+    Edit
+  </button>
+  <button
+    (click)="confirmDeleteIssue(issue._id)"
+    class="border border-red-600 text-red-600 px-3 py-1.5 rounded hover:bg-red-100 transition duration-200"
+  >
+    Delete
+  </button>
+</td>
+
         </tr>
       </tbody>
     </table>

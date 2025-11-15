@@ -1,0 +1,31 @@
+.full-background {
+  background: linear-gradient(to bottom right, #e0e7ff, #f8fafc);
+}
+
+.submit-button {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.submit-button:hover {
+  background: #1d4ed8;
+}
+
+.loading-spinner {
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

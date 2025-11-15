@@ -26,7 +26,7 @@ export class CompanyService {
   addCompany(company: Company): Observable<any> {
     return this.http.post(this.baseUrl, company);
   }
-
+  
   updateCompany(id: string, company: Company): Observable<any> {
     return this.http.put(`${this.baseUrl}/${id}`, company);
   }

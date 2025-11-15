@@ -1,0 +1,125 @@
+
+<!-- agent-dashboard.component.html -->
+<div class="sidebar-container">
+  <!-- Sidebar -->
+  <div class="fixed top-0 left-0 h-screen w-56 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800 text-white shadow-2xl z-40 transition-all duration-300 border-r border-slate-700/50">
+
+    <!-- Logo Section -->
+    <div class="logo-section p-6 border-b border-slate-700/30 relative">
+      <div class="flex items-center justify-center mb-2">
+        <div class="relative">
+          <img src="assets/images/log.png" alt="Logo" class="h-12 w-auto filter brightness-110" />
+          <div class="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-cyan-400 rounded-lg blur opacity-20 animate-pulse"></div>
+        </div>
+      </div>
+      <div class="text-center">
+     
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="flex flex-col px-3 py-4 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+
+      <!-- My Cases -->
+      <a routerLink="/agent/createcase"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:shadow-lg hover:shadow-indigo-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-folder-open text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-cyan-100 transition-colors duration-300">My Cases</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-cyan-400"></i>
+        </div>
+      </a>
+
+      <!-- Case Dashboard -->
+      <a routerLink="/agent/case-list"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:shadow-lg hover:shadow-indigo-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-chart-line text-blue-400 group-hover:text-blue-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-cyan-100 transition-colors duration-300">Case Dashboard</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-cyan-400"></i>
+        </div>
+      </a>
+
+      <!-- Service Dashboard -->
+      <a routerLink="/agent/service-dashboard"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:shadow-lg hover:shadow-indigo-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-layer-group text-pink-400 group-hover:text-pink-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-cyan-100 transition-colors duration-300">Service Dashboard</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-cyan-400"></i>
+        </div>
+      </a>
+
+      <!-- Troubleshooting -->
+      <a routerLink="/troubleshooting"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:shadow-lg hover:shadow-indigo-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-life-ring text-orange-400 group-hover:text-orange-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-cyan-100 transition-colors duration-300">Troubleshooting</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-cyan-400"></i>
+        </div>
+      </a>
+
+      <!-- Vendor Registration -->
+      <a routerLink="/agent/vendor-list"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:shadow-lg hover:shadow-indigo-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-list text-teal-400 group-hover:text-teal-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-cyan-100 transition-colors duration-300">Vendor Registration</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-cyan-400"></i>
+        </div>
+      </a>
+
+      <!-- Vendor Services -->
+      <a routerLink="/agent/vendor-service-location-list"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-cyan-600/20 hover:shadow-lg hover:shadow-indigo-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-briefcase text-violet-400 group-hover:text-violet-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-cyan-100 transition-colors duration-300">Vendor Services</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-cyan-400"></i>
+        </div>
+      </a>
+
+      <!-- Logout -->
+      <a routerLink="/auth/login"
+         routerLinkActive="router-link-active"
+         class="nav-item group flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300
+                hover:bg-gradient-to-r hover:from-red-600/20 hover:to-pink-600/20 hover:shadow-lg hover:shadow-red-500/20 hover:translate-x-1">
+        <div class="icon-wrapper">
+          <i class="fas fa-sign-out-alt text-red-400 group-hover:text-red-300 transition-colors duration-300"></i>
+        </div>
+        <span class="font-medium text-sm group-hover:text-red-100 transition-colors duration-300">Logout</span>
+        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <i class="fas fa-chevron-right text-xs text-red-400"></i>
+        </div>
+      </a>
+    </nav>
+
+    <!-- Bottom Gradient -->
+    <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none"></div>
+  </div>
+</div>
