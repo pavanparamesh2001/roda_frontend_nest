@@ -1,0 +1,74 @@
+<div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
+
+  <!-- Vendor Name -->
+  <div>
+    <label class="label">Vendor Name</label>
+    <input type="text" [(ngModel)]="name" class="input-box" placeholder="Vendor Name" />
+  </div>
+
+  <!-- Vendor Code -->
+  <div>
+    <label class="label">Vendor Code</label>
+    <input type="text" [(ngModel)]="vendorCode" class="input-box" placeholder="Vendor Code" />
+  </div>
+
+  <!-- Contact -->
+  <div>
+    <label class="label">Contact No</label>
+    <input type="text" [(ngModel)]="contactNo" class="input-box" placeholder="Contact No" />
+  </div>
+
+  <!-- State -->
+  <div>
+    <label class="label">State</label>
+    <select [(ngModel)]="selectedState" class="input-box" (change)="onChangestate($event)">
+      <option value="">Choose a State</option>
+      <option *ngFor="let s of states" [value]="s._id">{{ s.name }}</option>
+    </select>
+  </div>
+
+  <!-- District -->
+  <div>
+    <label class="label">District</label>
+    <select [(ngModel)]="selectedDistrict" class="input-box" (change)="onChangedistrict($event)">
+      <option value="">Choose a District</option>
+      <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
+    </select>
+  </div>
+
+  <!-- Status -->
+  <div>
+    <label class="label">Vendor Status</label>
+    <select [(ngModel)]="selectedStatus" class="input-box" (change)="onChangedstatus($event)">
+      <option value="">Vendor Status</option>
+      <option *ngFor="let v of vendorStatus" [value]="v.key">{{ v.name }}</option>
+    </select>
+  </div>
+
+  <!-- Start Date -->
+  <div>
+    <label class="label">Start Date</label>
+    <input type="date" [(ngModel)]="startDate" class="date-box" />
+  </div>
+
+  <!-- End Date -->
+  <div>
+    <label class="label">End Date</label>
+    <input type="date" [(ngModel)]="endDate" class="date-box" />
+  </div>
+
+  <!-- Search + Clear -->
+  <div class="flex items-center space-x-3 mt-6">
+    <button (click)="search()" class="search-btn">Search</button>
+
+    <svg (click)="clear()" xmlns="http://www.w3.org/2000/svg" class="reset-icon" viewBox="0 0 26 26">
+      <path d="M4.755 10.059..." />
+    </svg>
+  </div>
+</div>
+
+
+    
+
+
+

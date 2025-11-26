@@ -1,0 +1,35 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800 text-white px-4">
+
+  <!-- Animated Lock Icon -->
+  <div class="relative mb-6">
+    <div
+      class="h-24 w-24 rounded-full bg-gradient-to-r from-red-500 to-amber-500 flex items-center justify-center shadow-xl animate-pulse">
+      <i class="fas fa-lock text-4xl animate-bounce"></i>
+    </div>
+
+    <!-- Glow Effect -->
+    <div class="absolute -inset-2 bg-gradient-to-r from-red-400 to-amber-400 opacity-30 blur-2xl rounded-full"></div>
+  </div>
+
+  <!-- Card -->
+  <div
+    class="bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl rounded-2xl p-8 max-w-md text-center animate-fadeIn">
+
+    <h1 class="text-3xl font-bold mb-4 text-red-300 drop-shadow-lg">
+      Access Denied
+    </h1>
+
+    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+      You do not have permission to access this page.<br />
+      If you believe this is a mistake, please contact the administrator.
+    </p>
+
+    <button
+      (click)="goBack()"
+      class="mt-4 px-6 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200">
+      <i class="fas fa-arrow-left mr-2"></i> Go Back
+    </button>
+  </div>
+
+</div>
+

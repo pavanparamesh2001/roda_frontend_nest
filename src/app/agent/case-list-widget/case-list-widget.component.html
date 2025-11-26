@@ -1,178 +1,241 @@
-<!-- ──────── Search & Filters Section ──────── -->
-<div class="bg-white shadow-md rounded-xl p-6 mb-8 mt-4 border border-gray-100">
-  <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-    🔍 Search & Filters
-  </h2>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-    <input type="text" [(ngModel)]="filters.caseId" placeholder="Case ID"
-      class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-    <input type="text" [(ngModel)]="filters.vehicleNo" placeholder="Vehicle Number"
-      class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-    <input type="text" [(ngModel)]="filters.policyNumber" placeholder="Policy Number"
-      class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-    <input type="text" [(ngModel)]="filters.contactNumber" placeholder="Contact Number"
-      class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-    <input type="date" [(ngModel)]="filters.startDate"
-      class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-    <input type="date" [(ngModel)]="filters.endDate"
-      class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-  </div>
-
-  <div class="flex justify-end gap-3 mt-5">
-    <button (click)="searchCases()"
-      class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm transition">
-      Search
-    </button>
-    <button (click)="resetFilters()"
-      class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-lg text-sm font-medium transition">
-      Reset
-    </button>
-  </div>
-</div>
-
-<!-- ──────── Status Summary Bar ──────── -->
-<div class="flex flex-wrap gap-3 mb-6">
-  <span class="px-4 py-1.5 bg-blue-600 text-white rounded-full text-sm font-semibold shadow-sm">REGISTERED {{ statusCounts.REG }}</span>
-  <span class="px-4 py-1.5 bg-yellow-400 text-black rounded-full text-sm font-semibold shadow-sm">ACTIVATED {{ statusCounts.ACTD }}</span>
-  <span class="px-4 py-1.5 bg-indigo-600 text-white rounded-full text-sm font-semibold shadow-sm">INPROGRESS {{ statusCounts.INPROGRESS }}</span>
-  <span class="px-4 py-1.5 bg-green-500 text-white rounded-full text-sm font-semibold shadow-sm">RESOLVED {{ statusCounts.RESOLVED }}</span>
-  <span class="px-4 py-1.5 bg-green-700 text-white rounded-full text-sm font-semibold shadow-sm">COMPLETED {{ statusCounts.COMPLETED }}</span>
-  <span class="px-4 py-1.5 bg-red-600 text-white rounded-full text-sm font-semibold shadow-sm">CANCELLED {{ statusCounts.CANCELLED }}</span>
-  <span class="px-4 py-1.5 bg-orange-700 text-white rounded-full text-sm font-semibold shadow-sm">Reestimate {{ statusCounts.REESTIMATE }}</span>
-</div>
-
-
-<!-- ─────────────── Case List Table ─────────────── -->
-<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-  <table class="min-w-full divide-y divide-gray-300">
-    <thead class="bg-gray-50">
-      <tr>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Case ID</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Case Source</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Policy</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Created At</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Handled By</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Feedback</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Details</th>
-        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">More</th>
-      </tr>
-    </thead>
-
-    <tbody class="divide-y divide-gray-200 bg-white">
-      <tr *ngFor="let caseData of cases">
-        <td class="px-3 py-3 text-blue-700 font-medium">{{ caseData.caseId }}</td>
-        <td class="px-3 py-3">
-          <div class="font-semibold text-gray-900">{{ caseData.customerName || '--' }}</div>
-          <div class="text-sm text-gray-500 flex items-center gap-1">
-            {{ caseData.primaryContactNumber || '--' }}
-            <button (click)="copyContactNo(caseData.primaryContactNumber)" title="Copy" class="text-orange-600">📋</button>
-          </div>
-        </td>
-        <td class="px-3 py-3">{{ caseData.company?.name || '--' }}</td>
-        <td class="px-3 py-3">{{ caseData.policyNumber || '--' }}</td>
-        <td class="px-3 py-3">
-          <span
-            [ngClass]="{
-              'bg-blue-100 text-blue-800': caseData.status === 'REG',
-              'bg-yellow-200 text-yellow-800': caseData.status === 'ACTD',
-              'bg-green-400 text-green-900': caseData.status === 'COMPLETED',
-              'bg-red-200 text-red-800': caseData.status === 'CANCELLED'
-            }"
-            class="px-2 py-1 rounded-full text-xs font-semibold"
-          >
-            {{ caseData.status }}
-          </span>
-        </td>
-        <td class="px-3 py-3 text-gray-600">{{ caseData.createdAt | date: 'd/M/yyyy, h:mm a' }}</td>
-        <td class="px-3 py-3 text-red-800 font-semibold">{{ caseData.agentHandled?.name || 'PAVAN' }}</td>
-        <td class="px-3 py-3 text-red-800 font-semibold">{{ caseData.rating === 0 ? 'NA' : caseData.rating }}</td>
-        <td class="px-3 py-3">
-          <button (click)="navigateToDetailpage(caseData)" class="px-4 py-2 bg-gray-200 rounded-full text-sm font-medium hover:bg-gray-300">
-            Detailed View
-          </button>
-        </td>
-        <td class="px-3 py-3 text-center">
-          <button (click)="openCaseDetails(caseData._id)" class="text-blue-600 hover:text-blue-900">
-            ➜
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ─────────────── Modal for Case Details ─────────────── -->
-<div *ngIf="detailPageDialog" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-  <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-5xl p-6 overflow-y-auto max-h-[90vh]">
-    <div class="flex justify-between items-center border-b pb-3 mb-4">
-      <h2 class="text-2xl font-semibold text-blue-900">Case & Service Details</h2>
-      <button (click)="close()" class="text-gray-500 hover:text-gray-800 text-xl">✕</button>
-    </div>
-
-    <div *ngIf="selectedCase" class="grid grid-cols-2 gap-4 text-sm">
-      <div><b>Case Id:</b> {{ selectedCase.caseId }}</div>
-      <div><b>Policy Number:</b> {{ selectedCase.policyNumber || '--' }}</div>
-      <div><b>Vehicle Number:</b> {{ selectedCase.vehicleNo || '--' }}</div>
-      <div><b>Customer Name:</b> {{ selectedCase.customerName }}</div>
-      <div><b>Customer No:</b> {{ selectedCase.primaryContactNumber }}</div>
-      <div><b>Status:</b> {{ selectedCase.status }}</div>
-      <div><b>Agent Name:</b> {{ selectedCase.agentHandled?.name || 'PAVAN' }}</div>
-      <div><b>Case Source:</b> {{ selectedCase.company?.name }}</div>
-      <div><b>Vehicle Type:</b> {{ selectedCase.vehicleType }}</div>
-      <div><b>Location Type:</b> {{ selectedCase.locationType }}</div>
-      <div><b>District:</b> {{ selectedCase.district }}</div>
-      <div><b>State:</b> {{ selectedCase.state }}</div>
-      <div><b>Odometer Reading:</b> {{ selectedCase.odometerReading }}</div>
-      <div><b>Case Location:</b> {{ selectedCase.caseLocation }}</div>
-      <div class="col-span-2"><b>Description:</b> {{ selectedCase.description }}</div>
-      <div class="col-span-2">
-        <b>Issue:</b>
-        <div class="border rounded p-2 mt-1">{{ selectedCase.issue?.name || selectedCase.issue }}</div>
+<div class="case-list-container">
+  <!-- Search & Filters Section -->
+  <div class="filters-section">
+    <h2 class="section-title">Search & Filters</h2>
+    
+    <div class="filter-grid">
+      <div class="filter-item">
+        <label>Case ID</label>
+        <input type="text" [(ngModel)]="filters.caseId" placeholder="Enter Case ID" />
+      </div>
+      
+      <div class="filter-item">
+        <label>Vehicle Number</label>
+        <input type="text" [(ngModel)]="filters.vehicleNo" placeholder="Enter Vehicle No" />
+      </div>
+      
+      <div class="filter-item">
+        <label>Policy Number</label>
+        <input type="text" [(ngModel)]="filters.policyNumber" placeholder="Enter Policy No" />
+      </div>
+      
+      <div class="filter-item">
+        <label>Contact Number</label>
+        <input type="text" [(ngModel)]="filters.contactNumber" placeholder="Enter Contact No" />
+      </div>
+      
+      <div class="filter-item">
+        <label>Start Date</label>
+        <input type="date" [(ngModel)]="filters.startDate" />
+      </div>
+      
+      <div class="filter-item">
+        <label>End Date</label>
+        <input type="date" [(ngModel)]="filters.endDate" />
       </div>
     </div>
-  </div>
-</div>
-
-
-<!-- ──────── Pagination ──────── -->
-<div class="flex justify-between items-center mt-4">
-  <button (click)="prevPage()" [disabled]="page === 1" class="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300 disabled:opacity-50">Prev</button>
-  <p class="text-sm text-gray-700">Page {{ page }}</p>
-  <button (click)="nextPage()" [disabled]="page * limit >= total" class="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300 disabled:opacity-50">Next</button>
-</div>
-
-<div *ngIf="isLoading" class="text-center py-8 text-gray-500">Loading cases...</div>
-
-<!-- ─────────────── Modal for Case Details ─────────────── -->
-<div *ngIf="detailPageDialog" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-  <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-5xl p-6 overflow-y-auto max-h-[90vh]">
-    <div class="flex justify-between items-center border-b pb-3 mb-4">
-      <h2 class="text-2xl font-semibold text-blue-900">Case & Service Details</h2>
-      <button (click)="close()" class="text-gray-500 hover:text-gray-800 text-xl">✕</button>
-    </div>
     
-    <div *ngIf="selectedCase" class="grid grid-cols-2 gap-4 text-sm">
-      <div><b>Case Id:</b> {{ selectedCase.caseId }}</div>
-      <div><b>Policy Number:</b> {{ selectedCase.policyNumber || '--' }}</div>
-      <div><b>Vehicle Number:</b> {{ selectedCase.vehicleNo || '--' }}</div>
-      <div><b>Customer Name:</b> {{ selectedCase.customerName }}</div>
-      <div><b>Customer No:</b> {{ selectedCase.primaryContactNumber }}</div>
-      <div><b>Status:</b> {{ selectedCase.status }}</div>
-      <div><b>Agent Name:</b> {{ selectedCase.agentHandled?.name || 'PAVAN' }}</div>
-      <div><b>Case Source:</b> {{ selectedCase.company?.name }}</div>
-      <div><b>Vehicle Type:</b> {{ selectedCase.vehicleType }}</div>
-      <div><b>Location Type:</b> {{ selectedCase.locationType }}</div>
-      <div><b>District:</b> {{ selectedCase.district }}</div>
-      <div><b>State:</b> {{ selectedCase.state }}</div>
-      <div><b>Odometer Reading:</b> {{ selectedCase.odometerReading }}</div>
-      <div><b>Case Location:</b> {{ selectedCase.caseLocation }}</div>
-      <div class="col-span-2"><b>Description:</b> {{ selectedCase.description }}</div>
-      <div class="col-span-2">
-        <b>Issue:</b>
-        <div class="border rounded p-2 mt-1">{{ selectedCase.issue?.name || selectedCase.issue }}</div>
+    <div class="filter-actions">
+      <button class="btn btn-primary" (click)="searchCases()">Search</button>
+      <button class="btn btn-secondary" (click)="resetFilters()">Reset</button>
+    </div>
+  </div>
+
+  <!-- Status Counts Section -->
+  <div class="status-counts">
+    <div class="status-badge status-reg">
+      <span class="status-label">REGISTERED</span>
+      <span class="status-count">{{ statusCounts.REG }}</span>
+    </div>
+    <div class="status-badge status-actd">
+      <span class="status-label">ACTIVATED</span>
+      <span class="status-count">{{ statusCounts.ACTD }}</span>
+    </div>
+    <div class="status-badge status-progress">
+      <span class="status-label">IN PROGRESS</span>
+      <span class="status-count">{{ statusCounts.INPROGRESS }}</span>
+    </div>
+    <div class="status-badge status-resolved">
+      <span class="status-label">RESOLVED</span>
+      <span class="status-count">{{ statusCounts.RESOLVED }}</span>
+    </div>
+    <div class="status-badge status-completed">
+      <span class="status-label">COMPLETED</span>
+      <span class="status-count">{{ statusCounts.COMPLETED }}</span>
+    </div>
+    <div class="status-badge status-cancelled">
+      <span class="status-label">CANCELLED</span>
+      <span class="status-count">{{ statusCounts.CANCELLED }}</span>
+    </div>
+    <div class="status-badge status-reestimate">
+      <span class="status-label">REESTIMATE</span>
+      <span class="status-count">{{ statusCounts.REESTIMATE }}</span>
+    </div>
+  </div>
+
+  <!-- Cases Table -->
+  <div class="table-container">
+    <div *ngIf="isLoading" class="loading-state">
+      <p>Loading cases...</p>
+    </div>
+
+    <table *ngIf="!isLoading" class="cases-table">
+      <thead>
+        <tr>
+          <th>Case ID</th>
+          <th>Name</th>
+          <th>Case Source</th>
+          <th>Policy</th>
+          <th>Status</th>
+          <th>Created At</th>
+          <th>Handled By</th>
+          <th>Feedback</th>
+          <th>Details</th>
+          <th>More</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let caseData of cases">
+          <td class="case-id">{{ caseData.caseId }}</td>
+          <td class="customer-info">
+            <div class="customer-name">{{ caseData.customerName || '--' }}</div>
+            <div class="customer-contact">
+              {{ caseData.primaryContactNumber || '--' }}
+              <button 
+                *ngIf="caseData.primaryContactNumber" 
+                class="copy-btn" 
+                (click)="copyContactNo(caseData.primaryContactNumber)"
+                title="Copy phone number">
+                📋
+              </button>
+            </div>
+          </td>
+          <td>{{ caseData.company?.name || '--' }}</td>
+          <td>{{ caseData.policyNumber || '--' }}</td>
+          <td>
+            <span class="status-pill" [class]="'status-' + caseData.status?.toLowerCase()">
+              {{ caseData.status }}
+            </span>
+          </td>
+          <td>{{ caseData.createdAt | date: 'd/M/yyyy, h:mm a' }}</td>
+          <td>{{ caseData.agentHandled?.name || 'PAVAN' }}</td>
+          <td class="feedback-cell">{{ caseData.rating === 0 ? 'NA' : caseData.rating }}</td>
+          <td>
+            <button class="btn-detail" (click)="openCaseDetails(caseData._id)">
+              Detailed View
+            </button>
+          </td>
+          <td>
+            <button class="btn-arrow" (click)="navigateToDetailpage(caseData)">
+              ➜
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="!isLoading">
+    <button class="btn btn-nav" (click)="prevPage()" [disabled]="page === 1">
+      Prev
+    </button>
+    <span class="page-info">Page {{ page }}</span>
+    <button class="btn btn-nav" (click)="nextPage()" [disabled]="page * limit >= total">
+      Next
+    </button>
+  </div>
+
+  <!-- Case Details Modal -->
+  <div class="modal-overlay" *ngIf="detailPageDialog" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Case & Service Details</h3>
+        <button class="close-btn" (click)="close()">✕</button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedCase">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Case ID:</span>
+            <span class="detail-value">{{ selectedCase.caseId }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Policy Number:</span>
+            <span class="detail-value">{{ selectedCase.policyNumber || '--' }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Vehicle Number:</span>
+            <span class="detail-value">{{ selectedCase.vehicleNo || '--' }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Customer Name:</span>
+            <span class="detail-value">{{ selectedCase.customerName }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Customer No:</span>
+            <span class="detail-value">{{ selectedCase.primaryContactNumber }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Status:</span>
+            <span class="detail-value">{{ selectedCase.status }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Agent Name:</span>
+            <span class="detail-value">{{ selectedCase.agentHandled?.name || 'PAVAN' }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Case Source:</span>
+            <span class="detail-value">{{ selectedCase.company?.name }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Vehicle Type:</span>
+            <span class="detail-value">{{ selectedCase.vehicleType }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Location Type:</span>
+            <span class="detail-value">{{ selectedCase.locationType }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">District:</span>
+            <span class="detail-value">{{ selectedCase.district }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">State:</span>
+            <span class="detail-value">{{ selectedCase.state }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Odometer Reading:</span>
+            <span class="detail-value">{{ selectedCase.odometerReading }}</span>
+          </div>
+          
+          <div class="detail-item full-width">
+            <span class="detail-label">Case Location:</span>
+            <span class="detail-value">{{ selectedCase.caseLocation }}</span>
+          </div>
+          
+          <div class="detail-item full-width">
+            <span class="detail-label">Description:</span>
+            <span class="detail-value">{{ selectedCase.description }}</span>
+          </div>
+          
+          <div class="detail-item full-width">
+            <span class="detail-label">Issue:</span>
+            <span class="detail-value">{{ selectedCase.issue?.name || selectedCase.issue }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

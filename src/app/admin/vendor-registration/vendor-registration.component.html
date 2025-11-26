@@ -1,0 +1,464 @@
+<div
+  [ngSwitch]="switchType"
+  class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+>
+  <!-- STEP NAVIGATION -->
+  <div class="mx-8 my-8 lg:border-t lg:border-b lg:border-gray-200">
+    <nav aria-label="Progress">
+      <ol class="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0">
+
+        <!-- STEP 1: BASIC DETAILS -->
+        <li (click)="switchType = 'details'" class="relative md:flex md:flex-1 cursor-pointer">
+          <a class="group flex w-full items-center">
+            <span
+              [ngClass]="switchType === 'details'
+                ? `absolute top-0 left-0 h-screen ml-1 w-1 bg-indigo-600 lg:bottom-0 lg:h-1 lg:w-11/12`
+                : `absolute top-0 left-0 h-full w-3 bg-transparent group-hover:bg-gray-200 lg:h-1 lg:w-11/12`"
+            ></span>
+
+            <span class="flex items-center px-6 py-4 text-sm font-medium">
+              <span
+                [ngClass]="switchType === 'details'
+                  ? `flex h-10 w-10 justify-center items-center rounded-full border-2 border-indigo-600`
+                  : `flex h-10 w-10 justify-center items-center rounded-full border-2 border-gray-300`"
+              >
+                <span [ngClass]="switchType === 'details' ? `text-indigo-600` : `text-gray-500`">01</span>
+              </span>
+              <span [ngClass]="switchType === 'details' ? `ml-4 text-indigo-600` : `ml-4 text-gray-500`">
+                <b class="text-md">BASIC DETAILS</b>
+              </span>
+            </span>
+          </a>
+        </li>
+
+        <!-- STEP 2 -->
+        <li (click)="switchType = 'services'" class="relative md:flex md:flex-1 cursor-pointer">
+          <a class="flex items-center px-6 py-4 text-sm font-medium">
+            <span
+              [ngClass]="switchType === 'services'
+                ? `absolute top-0 left-0 h-full w-full bg-indigo-600 lg:h-1`
+                : `absolute top-0 left-0 h-full w-1 bg-transparent group-hover:bg-gray-200 lg:h-1`"
+            ></span>
+
+            <span
+              [ngClass]="switchType === 'services'
+                ? `flex h-10 w-10 items-center justify-center rounded-full border-2 border-indigo-600`
+                : `flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-300`"
+            >
+              <span [ngClass]="switchType === 'services' ? `text-indigo-600` : `text-gray-500`">02</span>
+            </span>
+
+            <span [ngClass]="switchType === 'services' ? `ml-4 text-indigo-600` : `ml-4 text-gray-500`">
+              <b class="text-md">SERVICES AND LOCATION</b>
+            </span>
+          </a>
+        </li>
+
+        <!-- STEP 3 -->
+        <li (click)="switchType = 'accounts'" class="relative md:flex md:flex-1 cursor-pointer">
+          <a class="group flex items-center">
+            <span
+              [ngClass]="switchType === 'accounts'
+                ? `absolute top-0 left-0 h-full w-1 bg-indigo-600 lg:h-1`
+                : `absolute top-0 left-0 h-full w-1 bg-transparent group-hover:bg-gray-200 lg:h-1`"
+            ></span>
+
+            <span class="flex items-center px-6 py-4 text-sm font-medium">
+              <span
+                [ngClass]="switchType === 'accounts'
+                  ? `flex h-10 w-10 items-center justify-center rounded-full border-2 border-indigo-600`
+                  : `flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-300`"
+              >
+                <span [ngClass]="switchType === 'accounts' ? `text-indigo-600` : `text-gray-500`">03</span>
+              </span>
+
+              <span [ngClass]="switchType === 'accounts' ? `ml-4 text-indigo-600` : `ml-4 text-gray-500`">
+                <b class="text-md">ACCOUNTS</b>
+              </span>
+            </span>
+          </a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- ========================== -->
+  <!-- STEP 1: DETAILS -->
+  <!-- ========================== -->
+  <div *ngSwitchCase="'details'" class="pb-8">
+    <form [formGroup]="vendorRegisterForm" novalidate>
+      <div class="bg-white rounded-lg border border-gray-200 shadow p-6">
+        <div class="grid grid-cols-4 gap-4">
+          <!-- Vendor Name -->
+          <div>
+            <label><span class="text-red-600">*</span> Vendor Name</label>
+            <input
+              formControlName="name"
+              class="mt-1 block w-full border rounded-md p-2"
+              placeholder="Vendor Name"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label>Email</label>
+            <input
+              formControlName="email"
+              type="email"
+              class="mt-1 block w-full border rounded-md p-2"
+              placeholder="Email"
+            />
+            <div *ngIf="existingVendorEmail" class="text-red-500 text-sm">Already existing email.</div>
+          </div>
+
+          <!-- Vendor Code -->
+          <div>
+            <label><span class="text-red-600">*</span> Vendor Code</label>
+            <input
+              formControlName="vendorCode"
+              class="mt-1 block w-full border rounded-md p-2"
+              placeholder="Vendor Code"
+            />
+            <div *ngIf="existingVendorCode" class="text-red-500 text-sm">Already existing vendor code.</div>
+          </div>
+
+          <!-- Contact Person -->
+          <div>
+            <label><span class="text-red-600">*</span> Contact Person</label>
+            <input
+              formControlName="contactPerson"
+              class="mt-1 block w-full border rounded-md p-2"
+              placeholder="Contact Person"
+            />
+          </div>
+
+          <!-- DOB -->
+          <div>
+            <label>Date of Birth</label>
+            <input type="date" formControlName="DOB" [max]="maxDate" class="mt-1 block w-full border rounded-md p-2" />
+          </div>
+
+          <!-- Primary Contact -->
+          <div>
+            <label><span class="text-red-600">*</span> Primary Contact</label>
+            <input
+              formControlName="mobile1"
+              class="mt-1 block w-full border rounded-md p-2"
+              placeholder="Primary Contact"
+            />
+            <div *ngIf="existingPrimaryContactNo" class="text-red-500">Contact number already exists.</div>
+          </div>
+
+          <!-- Secondary Contact -->
+          <div>
+            <label>Secondary Contact</label>
+            <input formControlName="mobile2" class="mt-1 block w-full border rounded-md p-2" placeholder="Secondary Contact" />
+          </div>
+
+          <!-- Whatsapp -->
+          <div>
+            <label>Whatsapp No</label>
+            <input formControlName="whatsappNo" class="mt-1 block w-full border rounded-md p-2" placeholder="Whatsapp No" />
+          </div>
+
+          <!-- State -->
+          <div>
+            <label><span class="text-red-600">*</span> State</label>
+            <select formControlName="state" (change)="onChangestate($event)" class="mt-1 block w-full border rounded-md p-2">
+           <option [ngValue]="null" disabled>Select State</option>
+
+             <option *ngFor="let x of states" [value]="x.id">{{ x.name }}</option>
+
+            </select>
+          </div>
+
+          <!-- District -->
+          <div>
+            <label><span class="text-red-600">*</span> District</label>
+            <select formControlName="district" class="mt-1 block w-full border rounded-md p-2">
+            <option [ngValue]="null">Select District</option>
+
+              <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
+
+            </select>
+          </div>
+
+          <!-- Location -->
+          <div>
+            <label><span class="text-red-600">*</span> Location</label>
+            <input formControlName="location" class="mt-1 block w-full border rounded-md p-2" placeholder="Location" />
+          </div>
+
+          <!-- Agent Name -->
+          <div>
+            <label><span class="text-red-600">*</span> Agent Name</label>
+            <input formControlName="agentName" class="mt-1 block w-full border rounded-md p-2" placeholder="Agent Name" />
+          </div>
+
+          <!-- Pin Code -->
+          <div>
+            <label>Pin Code</label>
+            <input formControlName="pincode" class="mt-1 block w-full border rounded-md p-2" placeholder="Pin Code" />
+          </div>
+
+          <!-- Address -->
+          <div class="col-span-2">
+            <label>Address</label>
+            <textarea formControlName="address" rows="4" class="mt-1 block w-full border rounded-md p-2" placeholder="Address"></textarea>
+          </div>
+
+          <!-- Remarks -->
+          <div class="col-span-2">
+            <label>Remarks</label>
+            <textarea formControlName="remarks" rows="4" class="mt-1 block w-full border rounded-md p-2" placeholder="Remarks"></textarea>
+          </div>
+        </div>
+
+        <!-- GST -->
+        <div class="mt-6">
+          <label class="block mb-2">GST</label>
+          <div class="flex gap-4 items-center">
+            <input type="checkbox" formControlName="gst" class="h-5 w-5" />
+
+            <input *ngIf="vendorRegisterForm.get('gst')?.value" formControlName="gstPercentage" placeholder="GST (%)" class="border rounded p-2" />
+
+            <input *ngIf="vendorRegisterForm.get('gst')?.value" formControlName="legalName" placeholder="Legal Name" class="border rounded p-2" />
+
+            <input *ngIf="vendorRegisterForm.get('gst')?.value" formControlName="gstNo" placeholder="GST No" class="border rounded p-2" />
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-8 flex justify-end">
+          <button
+            *ngIf="!editMode"
+            type="button"
+            (click)="vendorRegister()"
+            [disabled]="vendorRegisterForm.invalid"
+            class="px-6 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700"
+          >
+            Save & Next
+          </button>
+
+          <button
+            *ngIf="editMode"
+            type="button"
+            (click)="updateVendor()"
+            class="px-6 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700"
+          >
+            Update & Next
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- ========================== -->
+  <!-- STEP 2: SERVICES (TEMP UI) -->
+  <!-- ========================== -->
+ <!-- ========================== -->
+<!-- STEP 2: SERVICES & LOCATION -->
+<!-- ========================== -->
+<div *ngSwitchCase="'services'" class="p-6">
+  <div class="bg-white rounded-lg border p-6 shadow">
+    <h2 class="text-lg font-bold mb-4 text-indigo-700">Services & Location</h2>
+
+    <p class="text-gray-600 mb-4">
+      Add vendor branch locations, GPS coordinates and service coverage.
+    </p>
+
+    <!-- Add Location Button -->
+    <button
+      type="button"
+      (click)="openLocationModal()"
+      class="px-5 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700"
+    >
+      + Add Location
+    </button>
+
+    <!-- NEXT button -->
+    <div class="mt-8 text-right">
+      <button
+        class="px-6 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700"
+        (click)="switchType = 'accounts'"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+<!-- ========================== -->
+<!-- LOCATION MODAL -->
+<!-- ========================== -->
+<div
+  *ngIf="locationModal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40"
+>
+  <div class="bg-white rounded-lg w-2/3 shadow-xl overflow-hidden">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center bg-blue-700 text-white px-6 py-4">
+      <h3 class="text-xl font-semibold">Location</h3>
+      <button (click)="closeLocationModal()" class="text-white text-2xl">&times;</button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+      <form [formGroup]="locationForm">
+        <div class="grid grid-cols-2 gap-4">
+
+          <div>
+            <label>Branch Name</label>
+            <input formControlName="branchName" class="border p-2 rounded w-full" placeholder="Branch Name" />
+          </div>
+
+          <div>
+            <label>Contact Number</label>
+            <input formControlName="contactNo" class="border p-2 rounded w-full" placeholder="Contact no" />
+          </div>
+
+          <div>
+            <label>Alternate Number</label>
+            <input formControlName="alternateNo" class="border p-2 rounded w-full" placeholder="Alternate no" />
+          </div>
+
+          <div>
+            <label>Work Hours</label>
+            <input formControlName="workHours" class="border p-2 rounded w-full" placeholder="Work hours" />
+          </div>
+
+          <div>
+            <label>State</label>
+            <select formControlName="branchState" class="border p-2 rounded w-full">
+              <option disabled selected>Choose a state</option>
+              <option *ngFor="let s of states" [value]="s._id">{{ s.name }}</option>
+            </select>
+          </div>
+
+          <div>
+            <label>District</label>
+            <input formControlName="branchDistrict" placeholder="District" class="border p-2 rounded w-full" />
+          </div>
+
+          <div>
+            <label>Location</label>
+            <input formControlName="branchLocation" placeholder="Location" class="border p-2 rounded w-full" />
+          </div>
+
+          <div>
+            <label>Address</label>
+            <input formControlName="address" placeholder="Address" class="border p-2 rounded w-full" />
+          </div>
+
+        </div>
+
+        <!-- GPS SECTION -->
+       <!-- GPS SECTION -->
+<div class="mt-6">
+  <label class="block font-semibold mb-2">GPS Coordinates</label>
+
+  <div class="flex items-center gap-3 mb-2">
+    <img
+      src="/mnt/data/Screenshot 2025-11-21 161138.png"
+      class="w-8 h-8 rounded-full object-cover border"
+    />
+    <span class="text-gray-600 text-sm">Paste latitude & longitude (Ctrl + V)</span>
+  </div>
+
+  <!-- MAIN PASTE FIELD -->
+  <input
+    formControlName="gpsPaste"
+    (input)="handleGpsPaste()"
+    placeholder="Paste latitude & longitude..."
+    class="border p-2 rounded w-full"
+  />
+
+  <!-- AUTO-FILLED FIELDS -->
+  <div class="grid grid-cols-2 gap-4 mt-3">
+    <input [(ngModel)]="latitude" placeholder="Latitude" class="border p-2 rounded" />
+    <input [(ngModel)]="longitude" placeholder="Longitude" class="border p-2 rounded" />
+  </div>
+
+  <button
+    type="button"
+    (click)="saveGpsCoordinates()"
+    class="mt-3 px-4 py-2 bg-green-600 text-white rounded"
+  >
+    Save Coordinates
+  </button>
+</div>
+
+      </form>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="px-6 py-4 bg-gray-100 flex justify-end gap-3">
+      <button (click)="closeLocationModal()" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+      <button
+        (click)="saveLocation()"
+        class="px-4 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700"
+      >
+        Save Location
+      </button>
+    </div>
+
+  </div>
+</div>
+
+  <!-- ========================== -->
+  <!-- STEP 3: ACCOUNTS -->
+  <!-- ========================== -->
+  <div *ngSwitchCase="'accounts'" class="px-8 py-8">
+    <div class="bg-white rounded-lg border p-6 shadow">
+      <div class="grid grid-cols-3 gap-4 mt-4">
+        <div>
+          <label>Account No</label>
+          <input formControlName="accountNo" class="mt-1 w-full border rounded p-2" placeholder="Account No" />
+        </div>
+
+        <div>
+          <label>Holder's Name</label>
+          <input formControlName="holderName" class="mt-1 w-full border rounded p-2" placeholder="Name" />
+        </div>
+
+        <div>
+          <label>Bank Name</label>
+          <input formControlName="bank" class="mt-1 w-full border rounded p-2" placeholder="Bank" />
+        </div>
+
+        <div>
+          <label>Branch</label>
+          <input formControlName="branch" class="mt-1 w-full border rounded p-2" placeholder="Branch" />
+        </div>
+
+        <div>
+          <label>IFSC</label>
+          <input formControlName="ifsc" class="mt-1 w-full border rounded p-2" placeholder="IFSC" />
+        </div>
+
+        <div>
+          <label>PAN No</label>
+          <input formControlName="panNo" class="mt-1 w-full border rounded p-2" placeholder="PAN No" />
+        </div>
+      </div>
+
+      <hr class="my-6" />
+      <div class="text-center text-blue-700 font-bold">(OR)</div>
+
+      <div class="grid grid-cols-3 mt-4">
+        <div>
+          <label>Gpay No</label>
+          <input formControlName="gpayNo" class="mt-1 w-full border rounded p-2" placeholder="Gpay No" />
+        </div>
+      </div>
+
+      <div class="mt-8 text-right">
+        <button type="button" (click)="updateAccountsDetails()" class="px-6 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

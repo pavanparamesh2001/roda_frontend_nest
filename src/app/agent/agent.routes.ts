@@ -2,23 +2,28 @@
 import { Routes } from '@angular/router';
 import { CreatecaseComponent } from './createcase/createcase.component';
 import { CaseDashboardComponent } from './case-dashboard/case-dashboard.component';
-import { CaseListWidgetComponent } from './case-list-widget/case-list-widget.component';
+import { MyCasesComponent } from './my-cases/my-cases.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RoleGuard } from '../guards/role.guard';
+import { ROLES } from '../constants/roles';
 
 export const AGENT_ROUTES: Routes = [
+  {
+    path: '',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: [ROLES.AGENT] },  // 🔒 ONLY AGENT ACCESS
 
-  // Agent Dashboard (home)
-  { path: 'dashboard', component: CaseListWidgetComponent },
+    children: [
+      { path: 'dashboard', component: MyCasesComponent },
+      { path: 'my-cases', component: MyCasesComponent },
+      { path: 'createcase', component: CreatecaseComponent },
+      { path: 'case-dashboard/:id', component: CaseDashboardComponent },
 
-  // Case list widget page
-  { path: 'case-list', component: CaseListWidgetComponent },
-
-  // Case create page
-  { path: 'createcase', component: CreatecaseComponent },
-
-  // Dynamic case dashboard
-  { path: 'case-dashboard/:id', component: CaseDashboardComponent },
-
-  // Default → redirect to dashboard
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
+  },
 ];
+
+
+
 

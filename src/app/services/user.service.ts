@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'http://localhost:3000/users'; // ✅ NestJS endpoint
+  private baseUrl = 'http://localhost:3000/users'
 
   constructor(private http: HttpClient) {}
 

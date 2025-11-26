@@ -1,0 +1,267 @@
+<div class="mt-8 flex flex-col">
+  <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+
+        <!-- TABLE -->
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Vendor Code</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contact</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Created At</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Whatsapp No</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Last Updated At</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">View</th>
+              <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Edit</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-200 bg-white">
+            <tr *ngFor="let v of paginatedVendors; let i = index"
+                [ngClass]="v.active === false ? 'bg-gray-200' : ''">
+
+              <!-- Vendor Code -->
+              <td class="px-3 py-4 text-sm text-gray-900 sm:pl-6">
+                <div class="inline-flex cursor-pointer" (click)="viewRemarks(v)">
+                  {{ v.vendorCode }}
+                </div>
+
+                <!-- Copy -->
+                <svg *ngIf="!v.copyVendorCode"
+                     (click)="copyField(v.vendorCode, v, 'copyVendorCode')"
+                     xmlns="http://www.w3.org/2000/svg" stroke="orange"
+                     class="inline-block ml-2 w-5 h-5 cursor-pointer"
+                     fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.666 3.888A2.25 2.25..." />
+                </svg>
+
+                <svg *ngIf="v.copyVendorCode"
+                     xmlns="http://www.w3.org/2000/svg" stroke="orange"
+                     class="inline-block ml-2 w-5 h-5"
+                     fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 17.25v3.375..." />
+                </svg>
+              </td>
+
+              <!-- Name -->
+              <td class="px-3 py-4 text-sm text-gray-900">{{ v.name }}</td>
+
+              <!-- Contact -->
+              <td class="px-3 py-4 text-sm">
+                {{ v.contactNo?.primary }}
+                <svg *ngIf="!v.copied"
+                     (click)="copyField(v.contactNo.primary, v, 'copied')"
+                     xmlns="http://www.w3.org/2000/svg" fill="none"
+                     class="inline-block ml-2 w-5 h-5 cursor-pointer"
+                     viewBox="0 0 24 24" stroke="orange" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.666..." />
+                </svg>
+
+                <svg *ngIf="v.copied"
+                     xmlns="http://www.w3.org/2000/svg" fill="none"
+                     class="inline-block ml-2 w-5 h-5"
+                     viewBox="0 0 24 24" stroke="orange" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75..." />
+                </svg>
+              </td>
+
+              <!-- Created At -->
+              <td class="px-3 py-4 text-sm">
+                {{ v.createdAt | date:'d/M/yyyy h:mm a' }}
+              </td>
+
+              <!-- Whatsapp -->
+              <td class="px-3 py-4 text-sm">
+                {{ v.contactNo?.whatsappNo }}
+                <svg *ngIf="!v.copyWhatsappNo"
+                     (click)="copyField(v.contactNo.whatsappNo, v, 'copyWhatsappNo')"
+                     xmlns="http://www.w3.org/2000/svg"
+                     class="inline-block ml-2 w-5 h-5 cursor-pointer"
+                     viewBox="0 0 24 24" stroke="orange" stroke-width="1.5">
+                </svg>
+                <svg *ngIf="v.copyWhatsappNo"
+                     xmlns="http://www.w3.org/2000/svg"
+                     class="inline-block ml-2 w-5 h-5"
+                     viewBox="0 0 24 24" stroke="orange" stroke-width="1.5">
+                </svg>
+              </td>
+
+              <!-- Status -->
+              <td class="px-3 py-4 text-sm">
+                <span class="px-3 py-1 rounded-full text-xs"
+                      [ngClass]="v.active ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'">
+                  {{ v.active ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+
+              <!-- Updated -->
+              <td class="px-3 py-4 text-sm text-gray-700">
+                {{ v.updatedAt | date:'d/M/yyyy h:mm a' }}
+              </td>
+
+              <!-- Toggle -->
+              <td class="px-3 py-4 text-sm">
+                <label class="inline-flex relative items-center cursor-pointer">
+                  <input type="checkbox"
+                         class="sr-only peer"
+                         [checked]="v.active"
+                         (change)="toggleStatus(v)" />
+                  <div class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-blue-600
+                              peer relative after:absolute after:top-0.5 after:left-[2px]
+                              after:h-5 after:w-5 after:bg-white after:rounded-full
+                              after:transition-all peer-checked:after:translate-x-full">
+                  </div>
+                </label>
+              </td>
+<!-- View -->
+<td class="px-3 py-4 text-sm">
+  <svg
+    (click)="viewDetails(v)"
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-6 h-6 cursor-pointer text-indigo-600 hover:text-indigo-800"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round"
+          d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12z" />
+    <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
+  </svg>
+</td>
+
+
+              <!-- Edit -->
+              <td class="px-3 py-4 text-sm">
+                <svg (click)="editVendor(v)"
+                     xmlns="http://www.w3.org/2000/svg"
+                     class="w-6 h-6 cursor-pointer"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.862 4.487..." />
+                </svg>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="flex justify-center mt-4 space-x-2">
+    <button class="px-3 py-1 bg-gray-200 rounded"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)">
+      Prev
+    </button>
+
+    <button *ngFor="let p of totalPagesArray"
+            (click)="goToPage(p)"
+            [ngClass]="p === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-200'"
+            class="px-3 py-1 rounded">
+      {{ p }}
+    </button>
+
+    <button class="px-3 py-1 bg-gray-200 rounded"
+            [disabled]="currentPage === totalPages"
+            (click)="goToPage(currentPage + 1)">
+      Next
+    </button>
+  </div>
+</div>
+<!-- VIEW MODAL -->
+<div *ngIf="viewModal"
+  class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+
+  <div class="bg-white w-11/12 lg:w-3/4 rounded-lg shadow-xl p-6">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b pb-3 mb-4">
+      <h2 class="text-xl font-bold">Vendor Details</h2>
+      <button (click)="closeViewModal()" class="text-2xl">&times;</button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6">
+
+      <!-- LEFT SIDE DETAILS -->
+      <div>
+        <p><b>Name:</b> {{ selectedVendor?.name }}</p>
+        <p><b>Email:</b> {{ selectedVendor?.email || '--' }}</p>
+        <p><b>DOB:</b> {{ selectedVendor?.DOB || '--' }}</p>
+        <p><b>Address:</b> {{ selectedVendor?.address }}</p>
+        <p><b>Contact No:</b> {{ selectedVendor?.contactNo?.primary }}</p>
+        <p><b>Vendor Code:</b> {{ selectedVendor?.vendorCode }}</p>
+        <p><b>Status:</b> {{ selectedVendor?.active ? 'Active' : 'Inactive' }}</p>
+        <p><b>Contact Person:</b> {{ selectedVendor?.contactPerson }}</p>
+        <p><b>State:</b> {{ selectedVendor?.state }}</p>
+        <p><b>District:</b> {{ selectedVendor?.district }}</p>
+        <p><b>Location:</b> {{ selectedVendor?.location }}</p>
+      </div>
+
+      <!-- ACCOUNTS DETAILS -->
+      <div>
+        <h3 class="font-semibold text-lg mb-2">Account Details</h3>
+        <p><b>Account No:</b> {{ selectedVendor?.bankAccountDetails?.accountNo || '--' }}</p>
+        <p><b>Holder Name:</b> {{ selectedVendor?.bankAccountDetails?.name || '--' }}</p>
+        <p><b>Bank:</b> {{ selectedVendor?.bankAccountDetails?.bank || '--' }}</p>
+        <p><b>Branch:</b> {{ selectedVendor?.bankAccountDetails?.branch || '--' }}</p>
+        <p><b>IFSC:</b> {{ selectedVendor?.bankAccountDetails?.ifsc || '--' }}</p>
+        <p><b>PAN:</b> {{ selectedVendor?.bankAccountDetails?.panNo || '--' }}</p>
+        <p><b>Gpay No:</b> {{ selectedVendor?.bankAccountDetails?.gpayNo || '--' }}</p>
+      </div>
+    </div>
+
+    <!-- LOCATION DETAILS -->
+    <div class="mt-6">
+      <h3 class="font-semibold text-lg mb-3">Location Details</h3>
+
+      <table class="min-w-full border">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="px-3 py-2">Branch</th>
+            <th class="px-3 py-2">Address</th>
+            <th class="px-3 py-2">Contact</th>
+            <th class="px-3 py-2">Status</th>
+            <th class="px-3 py-2">Created On</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let loc of selectedVendor?.locations">
+            <td class="px-3 py-2">{{ loc.branchName }}</td>
+            <td class="px-3 py-2">{{ loc.address }}</td>
+            <td class="px-3 py-2">{{ loc.contactNo }}</td>
+            <td class="px-3 py-2">
+              <span class="px-3 py-1 rounded-full text-xs"
+                [class.bg-green-200]="loc.active"
+                [class.text-green-700]="loc.active"
+                [class.bg-red-200]="!loc.active"
+                [class.text-red-700]="!loc.active">
+                {{ loc.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="px-3 py-2">{{ loc.createdAt | date:'MM/dd/yy' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-right mt-4">
+      <button (click)="closeViewModal()"
+        class="px-5 py-2 bg-indigo-600 text-white rounded">
+        Close
+      </button>
+    </div>
+
+  </div>
+</div>
+

@@ -1,0 +1,54 @@
+<div class="py-6">
+  <div class="px-4 sm:px-6 lg:px-8">
+
+    <!-- HEADER -->
+    <div class="sm:flex sm:items-center sm:justify-between mb-6">
+
+      <!-- LEFT: Back Arrow + Title -->
+      <div class="flex items-center space-x-3">
+
+        <!-- Back Arrow Icon -->
+        <svg 
+          (click)="goBack()" 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="w-6 h-6 cursor-pointer text-gray-600 hover:text-black transition"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" 
+                stroke-width="2"
+                d="M15 19l-7-7 7-7" />
+        </svg>
+
+        <!-- Page Title -->
+        <h1 class="text-xl font-semibold text-gray-900">Vendor List</h1>
+      </div>
+
+      <!-- Add Vendor Button -->
+      <button
+        type="button"
+        (click)="navigateToVendorRegistration()"
+        class="inline-flex items-center justify-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-700"
+      >
+        Add Vendor
+      </button>
+
+    </div>
+
+    <!-- ⭐ SEARCH CARD -->
+    <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200">
+      <app-vendor-search-widget
+        (onSearch)="handleSearch($event)"
+        (onClear)="handleClear()"
+      ></app-vendor-search-widget>
+    </div>
+
+    <!-- ⭐ VENDOR LIST -->
+    <div class="mt-6">
+      <app-vendorlistwidget [filters]="filters"></app-vendorlistwidget>
+    </div>
+
+  </div>
+</div>
+
+ 
+
+    
